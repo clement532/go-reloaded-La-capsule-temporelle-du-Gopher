@@ -19,19 +19,24 @@ func processLevel1(line string) string {
 
 			previous := result[len(result)-1]
 
-			var base int
-			if word == "(hex)" {
-				base = 16
-			} else {
+			base := 16
+			maxLength := 15
+
+			if word == "(bin)" {
 				base = 2
+				maxLength = 63
 			}
 
-			value, err := strconv.ParseUint(previous, base, 64)
+			// Vérifie la longueur maximale imposée par le sujet.
+			if len(previous) <= maxLength {
+				value, err := strconv.ParseUint(previous, base, 64)
 
-			if err == nil {
-				result[len(result)-1] = strconv.FormatUint(value, 10)
+				if err == nil {
+					result[len(result)-1] = strconv.FormatUint(value, 10)
+				}
 			}
 
+			// Le modifier disparaît toujours.
 			continue
 		}
 
