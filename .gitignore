@@ -1,0 +1,19 @@
+# Binaries
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary, built with `go test -c`
+*.test
+
+# Output of the Go coverage tool
+coverage.out
+
+# Go build cache
+bin/
+
+# JetBrains IDE files
+.idea/
+.vscode/
