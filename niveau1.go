@@ -27,7 +27,6 @@ func processLevel1(line string) string {
 				maxLength = 63
 			}
 
-			// Vérifie la longueur maximale imposée par le sujet.
 			if len(previous) <= maxLength {
 				value, err := strconv.ParseUint(previous, base, 64)
 
@@ -36,7 +35,6 @@ func processLevel1(line string) string {
 				}
 			}
 
-			// Le modifier disparaît toujours.
 			continue
 		}
 
