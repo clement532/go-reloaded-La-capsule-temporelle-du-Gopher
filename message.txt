@@ -1,0 +1,5 @@
+Dear future student,
+If you can read this, your program works. I hid this capsule in 2016, after 42 cups of coffee and an unreasonable amount of debugging.
+The secret phrase is 'GOPHERS NEVER PANIC'. Whisper it to your auditor...
+They will understand.
+Signed: The Gopher, Keeper Of The Capsule.

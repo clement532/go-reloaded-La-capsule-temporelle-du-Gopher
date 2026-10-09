@@ -1,0 +1,5 @@
+dear (cap) future student ,
+if (cap) you can read this ,your program works . i (up) hid this capsule in 7E0 (hex) , after 101010 (bin) cups of coffee and a unreasonable amount of DEBUGGING (low) .
+the (cap) secret phrase is ' gophers never panic (up, 3) ' . whisper (cap) it to your auditor ...
+they (cap) will understand .
+Signed: the gopher (cap, 2) , keeper of the capsule (cap, 4) .
