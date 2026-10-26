@@ -1,39 +1,93 @@
 
+
 package main
 
-import "strings"
+import (
+	"strings"
+	"unicode"
+)
 
-func isPunctuation(c byte) bool {
-    return strings.ContainsRune(".,!?:;", rune(c))
+// Vérifie si un caractère est un signe de ponctuation.
+func isPunctuation(r rune) bool {
+	return strings.ContainsRune(".,!?:;", r)
 }
 
-func fixPunctuation(text string) string {
-    words := strings.Fields(text)
-    result := ""
+// Corrige la ponctuation et les espaces d'une ligne.
+func normalizeLine(line string) string {
+	runes := []rune(line)
 
-    for _, word := range words {
-        onlyPunctuation := true
+	var result strings.Builder
+	var word strings.Builder
 
-        for i := 0; i < len(word); i++ {
-            if !isPunctuation(word[i]) {
-                onlyPunctuation = false
-                break
-            }
-        }
+	// Ajoute le mot en cours au résultat.
+	flushWord := func() {
+		if word.Len() == 0 {
+			return
+		}
 
-        if onlyPunctuation {
-            result += word
-        } else {
-            if result != "" {
-                if !isPunctuation(result[len(result)-1]) {
-                    result += " "
-                } else {
-                    result += " "
-                }
-            }
-            result += word
-        }
-    }
+		if result.Len() > 0 {
+			result.WriteByte(' ')
+		}
 
-    return result
+		result.WriteString(word.String())
+		word.Reset()
+	}
+
+	for i := 0; i < len(runes); {
+		r := runes[i]
+
+		// Ignore les espaces multiples.
+		if unicode.IsSpace(r) {
+			flushWord()
+			i++
+			continue
+		}
+
+		// Gestion des signes de ponctuation.
+		if isPunctuation(r) {
+			start := i
+
+			// Regroupe les signes consécutifs.
+			for i < len(runes) && isPunctuation(runes[i]) {
+				i++
+			}
+
+			group := string(runes[start:i])
+
+			// Ponctuation à l'intérieur d'un mot.
+			// Exemples : 3.14, 1,000, this,that
+			insideWord := start > 0 &&
+				i < len(runes) &&
+				!unicode.IsSpace(runes[start-1]) &&
+				!unicode.IsSpace(runes[i])
+
+			if insideWord {
+				word.WriteString(group)
+			} else {
+				flushWord()
+				result.WriteString(group)
+			}
+
+			continue
+		}
+
+		word.WriteRune(r)
+		i++
+	}
+
+	flushWord()
+
+	return result.String()
 }
+
+// Traite toutes les lignes du texte.
+func ProcessLevel3(text string) string {
+	lines := strings.Split(text, "\n")
+
+	for i, line := range lines {
+		lines[i] = normalizeLine(line)
+	}
+
+	return strings.Join(lines, "\n")
+}
+
